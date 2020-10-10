@@ -5,6 +5,7 @@ import { TextField, SelectField } from "../Component/Constant";
 import img from "../assets/IMG-20201007-WA0008.jpg";
 import "./index.css";
 import RiseLoader from "react-spinners/CircleLoader";
+import { Button, Modal, Image } from "react-bootstrap";
 /**
  * name
  * school
@@ -21,15 +22,13 @@ class Register extends Component {
     super(props);
     this.state = {
       name: "",
-      lastname: "",
-      othername: "",
       gender: "",
       status: "",
       email: "",
       phone: "",
       member: "",
       institution: "",
-      password: "",
+      password: "123456789",
       expectation: "",
       momo: "",
       network: "",
@@ -37,7 +36,27 @@ class Register extends Component {
       error: true,
       loading: false,
       isvalid: false,
+      registered: false,
+      show: false,
+      loading_: false,
     };
+  }
+
+  handleClose = () => {
+    this.setState({ show: false });
+    this.setState({ name: "" });
+    this.resetForm();
+  };
+
+  handleShow = () => {
+    this.setState({ show: true, _loading: false });
+  };
+  resetForm() {
+    this.setState({
+      email: "",
+
+      modal: false,
+    });
   }
   handleChange = (e) => {
     const target = e.target;
@@ -68,6 +87,36 @@ class Register extends Component {
     ) {
       errors.gender = "Select Gender";
     }
+    if (
+      (this.state.status.trim() === "Select Status") |
+      (this.state.status.trim() === "")
+    ) {
+      errors.status = "Select Status";
+    }
+    if (
+      (this.state.network.trim() === "Select Network") |
+      (this.state.network.trim() === "")
+    ) {
+      errors.network = "Select Network Type";
+    }
+
+    if (
+      (this.state.member.trim() === "Select Status") |
+      (this.state.member.trim() === "")
+    ) {
+      errors.member = "Select COP Status";
+    }
+
+    if (this.state.email.trim() === "") {
+      errors.email = "Enter Email";
+    }
+    if (this.state.momo.trim() === "") {
+      errors.momo = "Enter your mobile money number";
+    }
+    if (this.state.expectation.trim() === "") {
+      errors.expectation = "Enter your expectation for the conference";
+    }
+
     // Before Loading
     let isValid;
     this.setState({ loading: true });
@@ -84,16 +133,17 @@ class Register extends Component {
         document.getElementById("spinning").hidden = true;
         document.getElementById("form").hidden = false;
         if (isValid) {
-          const data = {
-            name: this.state.name.trim(),
-          };
           this.props.register(this.state);
+          if (!this.props.authError) {
+            this.handleShow();
+          }
         }
       }
     }, 5000);
   };
   render() {
     const { authError } = this.props;
+
     return (
       <div className="container">
         {/* <span
@@ -105,6 +155,7 @@ class Register extends Component {
         >
           <RiseLoader margin={1} size={50} color={"#fff"} loading={true} />
         </span> */}
+        {/* {this.state.registered ?  : ""} */}
         <div className="Loading-header" id="spinning" hidden>
           <RiseLoader margin={1} size={100} color={"#fff"} loading={true} />{" "}
         </div>{" "}
@@ -115,6 +166,7 @@ class Register extends Component {
                 <p>{this.state.errors.global}</p>
               </div>
             )}
+
             <TextField
               type="text"
               name="name"
@@ -203,7 +255,7 @@ class Register extends Component {
             <TextField
               type="text"
               name="momo"
-              label="momo"
+              label="Mobile Money Number"
               className="form-control"
               value={this.state.momo}
               onChange={this.handleChange}
@@ -232,9 +284,47 @@ class Register extends Component {
             <div className="text-center btn-danger">
               {authError && !this.state.loading ? <p>{authError}</p> : null}
             </div>
+
+            <Modal
+              size="md"
+              aria-labelledby="contained-modal-title-vcenter"
+              show={this.state.show}
+              onHide={this.handleClose}
+              centered
+            >
+              <Modal.Body className="contact_success_modal_body">
+                <Image
+                  className="contact_success_modal_img"
+                  src="https://icon-library.net/images/success-icon/success-icon-5.jpg"
+                />
+                <h5>
+                  Thank you{" "}
+                  <span>
+                    <strong>{this.state.name}</strong>!!
+                  </span>{" "}
+                  😇
+                </h5>
+                <h6>
+                  You have successfuly registered for the second edition of the
+                  Eschatological conference
+                </h6>
+                <h6>
+                  Check your email for the links to access the conference.
+                </h6>
+                <br />
+                <Button
+                  variant="outline-light"
+                  size="lg"
+                  onClick={this.handleClose}
+                  className="contact-email-text-btn"
+                >
+                  Close
+                </Button>
+              </Modal.Body>
+            </Modal>
           </form>
         </div>
-        <img src={img} alt="bg" />
+        {/* <img src={img} alt="bg" /> */}
       </div>
     );
   }

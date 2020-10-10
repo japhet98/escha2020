@@ -30,7 +30,9 @@ export const signOut = () => {
 const sendEmail = (member) => {
     let templateParams = {
         from_name: "noReply@pensaumat",
-        to_name: member.email,
+        to_name: member.name,
+        to_email: member.email,
+        reply_to: "testing@gmail.com",
         subject: "subject",
         message_html: "message",
     };
