@@ -107,7 +107,10 @@ class Register extends Component {
       errors.member = "Select COP Status";
     }
 
-    if (this.state.institution.trim() === "") {
+    if (
+      this.state.institution.trim() === "" &&
+      this.state.status !== "Alumni"
+    ) {
       errors.institution = "Enter Institution";
     }
 
@@ -139,14 +142,15 @@ class Register extends Component {
         if (isValid) {
           this.props.register(this.state);
         }
+        // if (this.props.success) {
+        this.handleShow();
+        // }
       }
     }, 5000);
   };
   render() {
     const { authError } = this.props;
-    // if (this.props.success) {
-    //   this.handleShow();
-    // }
+
     console.log(this.props.success);
     return (
       <div className="container">
@@ -296,14 +300,11 @@ class Register extends Component {
                 Register
               </button>
             </div>
-            <div className="text-center btn-danger">
-              {authError && !this.state.loading ? <p>{authError}</p> : null}
-            </div>
 
             <Modal
               size="md"
               aria-labelledby="contained-modal-title-vcenter"
-              show={this.props.success}
+              show={this.state.show}
               onHide={this.handleClose}
               centered
             >
@@ -313,24 +314,40 @@ class Register extends Component {
                   src="https://icon-library.net/images/success-icon/success-icon-5.jpg"
                   width="50%"
                 /> */}
-                <h5>
-                  Thank you{" "}
-                  <span>
-                    <strong>{this.state.name}</strong>!!
-                  </span>{" "}
-                  😇
-                </h5>
-                <h6>
-                  You have successfuly registered for the second edition of the
-                  Eschatological conference
-                </h6>
-                <b>
-                  {" "}
-                  <h6>
-                    Check your email for the links to access the conference.
-                  </h6>
-                </b>
-                <br />
+                {this.props.loaded ? (
+                  <div className="text-center btn-danger">
+                    <p>{authError}</p>
+                  </div>
+                ) : (
+                  ""
+                )}
+
+                {this.props.success ? (
+                  <>
+                    {" "}
+                    <h5>
+                      Thank you{" "}
+                      <span>
+                        <strong>{this.state.name}</strong>!!
+                      </span>{" "}
+                      😇
+                    </h5>
+                    <h6>
+                      You have successfuly registered for the second edition of
+                      the Eschatological conference
+                    </h6>
+                    <b>
+                      {" "}
+                      <h6>
+                        Check your email for the links to access the conference.
+                      </h6>
+                    </b>
+                    <br />
+                  </>
+                ) : (
+                  ""
+                )}
+
                 <Button
                   variant="outline-light"
                   size="lg"
@@ -353,6 +370,7 @@ const mapStateToProps = (state) => {
     auth: state.firebase.auth,
     authError: state.auth.authError,
     success: state.auth.success,
+    loaded: state.auth.loaded,
   };
 };
 

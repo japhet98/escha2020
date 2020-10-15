@@ -1,6 +1,7 @@
 const initState = {
     authError: null,
     success: false,
+    loaded: false,
 };
 
 const authReducer = (state = initState, action) => {
@@ -29,6 +30,7 @@ const authReducer = (state = initState, action) => {
                 ...state,
                 authError: null,
                 success: true,
+                loaded: false,
             };
 
         case "SIGNUP_ERROR":
@@ -37,6 +39,7 @@ const authReducer = (state = initState, action) => {
                 ...state,
                 authError: action.err.message,
                 success: false,
+                loaded: true,
             };
 
         case "EC_SIGNUP_SUCCESS":
