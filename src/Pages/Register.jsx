@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { register } from "../Store/Actions/authActions";
 import { connect } from "react-redux";
 import { TextField, SelectField } from "../Component/Constant";
-import img from "../assets/IMG-20201007-WA0008.jpg";
+// import img from "../assets/IMG-20201007-WA0008.jpg";
 import "./index.css";
 import RiseLoader from "react-spinners/CircleLoader";
-import { Button, Modal, Image } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 /**
  * name
  * school
@@ -107,6 +107,10 @@ class Register extends Component {
       errors.member = "Select COP Status";
     }
 
+    if (this.state.institution.trim() === "") {
+      errors.institution = "Enter Institution";
+    }
+
     if (this.state.email.trim() === "") {
       errors.email = "Enter Email";
     }
@@ -134,19 +138,20 @@ class Register extends Component {
         document.getElementById("form").hidden = false;
         if (isValid) {
           this.props.register(this.state);
-          if (!this.props.authError) {
-            this.handleShow();
-          }
         }
       }
     }, 5000);
   };
   render() {
     const { authError } = this.props;
-
+    // if (this.props.success) {
+    //   this.handleShow();
+    // }
+    console.log(this.props.success);
     return (
       <div className="container">
-        {/* <span
+        {/* <span\
+        51,31,84,17
           className="spinner text-danger mx-auto text-center"
           //   role="status"
           id="spinning"
@@ -178,23 +183,7 @@ class Register extends Component {
               errorstatus={this.state.error}
               errors={this.state.errors.name}
             />
-            {/* <TextField
-              type="text"
-              name="othername"
-              label="Othername"
-              className="form-control"
-              value={this.state.othername}
-              onChange={this.handleChange}
-            />
-            <TextField
-              type="text"
-              name="lastname"
-              label="Lastname"
-              className="form-control"
-              value={this.state.lastname}
-              onChange={this.handleChange}
-              required
-            /> */}
+
             <SelectField
               label="Gender"
               name="gender"
@@ -204,6 +193,16 @@ class Register extends Component {
               errorstatus={this.state.error}
               errors={this.state.errors.gender}
             />
+
+            {/* <TextField
+              type="text"
+              name="lastname"
+              label="Lastname"
+              className="form-control"
+              value={this.state.lastname}
+              onChange={this.handleChange}
+              required
+            /> */}
             <SelectField
               label="Are you a COP member"
               name="member"
@@ -225,11 +224,27 @@ class Register extends Component {
                 "Pre-Tertiary",
                 "Tertiary",
                 "Alumni",
-                "non-PENSA",
+                "Non-PENSA",
               ]}
               errorstatus={this.state.error}
               errors={this.state.errors.status}
             />
+            {this.state.status === "Pre-Tertiary" ||
+            this.state.status === "Tertiary" ||
+            this.state.status === "Non-PENSA" ? (
+              <TextField
+                type="text"
+                name="institution"
+                label="Institution"
+                className="form-control"
+                value={this.state.institution}
+                onChange={this.handleChange}
+                errorstatus={this.state.institution}
+                errors={this.state.errors.institution}
+              />
+            ) : (
+              ""
+            )}
             <TextField
               type="textarea"
               name="expectation"
@@ -288,15 +303,16 @@ class Register extends Component {
             <Modal
               size="md"
               aria-labelledby="contained-modal-title-vcenter"
-              show={this.state.show}
+              show={this.props.success}
               onHide={this.handleClose}
               centered
             >
               <Modal.Body className="contact_success_modal_body">
-                <Image
-                  className="contact_success_modal_img"
+                {/* <Image
+                  className="contact_success_modal_img mx-auto text-center"
                   src="https://icon-library.net/images/success-icon/success-icon-5.jpg"
-                />
+                  width="50%"
+                /> */}
                 <h5>
                   Thank you{" "}
                   <span>
@@ -308,9 +324,12 @@ class Register extends Component {
                   You have successfuly registered for the second edition of the
                   Eschatological conference
                 </h6>
-                <h6>
-                  Check your email for the links to access the conference.
-                </h6>
+                <b>
+                  {" "}
+                  <h6>
+                    Check your email for the links to access the conference.
+                  </h6>
+                </b>
                 <br />
                 <Button
                   variant="outline-light"
@@ -333,6 +352,7 @@ const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
     authError: state.auth.authError,
+    success: state.auth.success,
   };
 };
 

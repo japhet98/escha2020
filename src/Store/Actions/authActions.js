@@ -68,7 +68,7 @@ export const register = (newUser) => {
                     member: newUser.member,
                     gender: newUser.gender,
                     status: newUser.status,
-                    phone: newUser.phone,
+                    phone: newUser.momo,
                     email: newUser.email,
                     institution: newUser.institution,
                     expectation: newUser.expectation,
