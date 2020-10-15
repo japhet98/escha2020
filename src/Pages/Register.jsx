@@ -352,7 +352,7 @@ class Register extends Component {
                   variant="outline-light"
                   size="lg"
                   onClick={this.handleClose}
-                  className="contact-email-text-btn"
+                  className="contact-email-text-btn btn-primary"
                 >
                   Close
                 </Button>
