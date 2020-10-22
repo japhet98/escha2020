@@ -7,6 +7,8 @@ import "./index.css";
 import RiseLoader from "react-spinners/CircleLoader";
 import { Button, Modal } from "react-bootstrap";
 import { usePaystackPayment } from "react-paystack";
+import { MDBContainer, MDBAlert, MDBNotification } from "mdbreact";
+
 /**
  * name
  * school
@@ -202,43 +204,55 @@ class Register extends Component {
         </div>
       );
     };
+    const IndexAlertPage = ({ Children, color, dismiss }) => {
+      return (
+        <MDBContainer>
+          <MDBAlert color={color} dismiss={dismiss}>
+            {Children}
+          </MDBAlert>
+        </MDBContainer>
+      );
+    };
 
     const Instructions = (
-      <div className="container">
-        <div
-          className="alert alert-warning alert-dismissible fade show mx-auto text-center"
-          role="alert"
-        >
-          <strong className="text-center">Registration Instructions</strong>
-        </div>
-        <div
-          className="alert alert-warning alert-dismissible fade show"
-          role="alert"
-        >
-          <h5>
-            Enter your active email since conference links will be sent to you
-            via email
-          </h5>
-        </div>
-
-        <div
-          className="alert alert-warning alert-dismissible fade show"
-          role="alert"
-        >
-          <h5>
-            Check your input before you register by clicking on the{" "}
-            <b>Check Input</b> button
-          </h5>
-        </div>
-
-        <div
-          className="alert alert-warning alert-dismissible fade show"
-          role="alert"
-        >
-          <h5>
-            Complete your registration by clicking on the <b>Register</b> button
-          </h5>
-        </div>
+      <div className="container-fluid">
+        <IndexAlertPage
+          color="warning"
+          dismiss
+          Children={
+            <strong className="text-center">Registration Instructions</strong>
+          }
+        />
+        <IndexAlertPage
+          color="warning"
+          dismiss
+          Children={
+            <h5>
+              Enter your active email since conference links will be sent to you
+              via email
+            </h5>
+          }
+        />
+        <IndexAlertPage
+          color="warning"
+          dismiss
+          Children={
+            <h5>
+              Check your input before you register by clicking on the{" "}
+              <b>Check Input</b> button
+            </h5>
+          }
+        />
+        <IndexAlertPage
+          color="warning"
+          dismiss
+          Children={
+            <h5>
+              Complete your registration by clicking on the <b>Register</b>{" "}
+              button
+            </h5>
+          }
+        />
       </div>
     );
     return (
@@ -378,12 +392,18 @@ class Register extends Component {
             />
 
             <div style={{ marginTop: "20px" }} className="container row">
-              <div className="col-lg-6 col-md-6 col-sm-6">
+              <div
+                className="col-lg-6 col-md-6 col-sm-6"
+                style={{ marginTop: "20px" }}
+              >
                 <button type="submit" className="btn btn-success form-control">
                   Check Input
                 </button>
               </div>
-              <div className="col-lg-6 col-md-6 col-sm-6">
+              <div
+                className="col-lg-6 col-md-6 col-sm-6"
+                style={{ marginTop: "20px" }}
+              >
                 {this.state.validated && this.state.isvalid ? (
                   <PaystackHookExample />
                 ) : (
