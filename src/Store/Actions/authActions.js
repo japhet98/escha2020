@@ -1,4 +1,5 @@
 import * as emailjs from "emailjs-com";
+
 export const signIn = (credentials) => {
     return (dispatch, getState, { getFirebase }) => {
         const firebase = getFirebase();
@@ -60,8 +61,7 @@ export const register = (newUser) => {
 
         firebase
             .auth()
-
-        .createUserWithEmailAndPassword(newUser.email, newUser.password)
+            .createUserWithEmailAndPassword(newUser.email, newUser.password)
             .then((memb) => {
                 return firestore.collection("member").doc(memb.user.uid).set({
                     name: newUser.name,
@@ -83,6 +83,12 @@ export const register = (newUser) => {
             });
     };
 };
+
+// const credentials = {
+//     userSecret: "82fc4d50e0314a4cbd57ae64ce1b70f5",
+//     userId: "5ededbd1-cc21-4ada-ac11-0c0e481800ad",
+//     primaryKey: "6a31f6cd066c47eaa3414ad72a0e5526",
+// };
 
 // export const signUpEC = (newUser) => {
 //     return (dispatch, getState, { getFirebase, getFirestore }) => {

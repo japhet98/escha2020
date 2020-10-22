@@ -1,0 +1,10 @@
+request token
+authorization = token
+x-refrence = uuid
+
+pK = 6a31f6cd066c47eaa3414ad72a0e5526
+sK = e2633a688cf6462bba76c860df83313a
+
+uuid = 9a6f8b86-36bc-42de-a15a-411e1ca6b2a0
+appID = cid-v1:e996501c-e721-4ac1-97ff-dc6887b85e8c
+apikey = 1bc05869b02544b3bf42cf7910e658eb

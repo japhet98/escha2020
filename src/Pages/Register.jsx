@@ -6,6 +6,7 @@ import { TextField, SelectField } from "../Component/Constant";
 import "./index.css";
 import RiseLoader from "react-spinners/CircleLoader";
 import { Button, Modal } from "react-bootstrap";
+import { usePaystackPayment } from "react-paystack";
 /**
  * name
  * school
@@ -38,13 +39,14 @@ class Register extends Component {
       isvalid: false,
       registered: false,
       show: false,
-      loading_: false,
+      _loading: false,
+      validated: false,
     };
   }
 
   handleClose = () => {
     this.setState({ show: false });
-    this.setState({ name: "" });
+    // this.setState({ name: "" });
     this.resetForm();
   };
 
@@ -53,7 +55,7 @@ class Register extends Component {
   };
   resetForm() {
     this.setState({
-      email: "",
+      // email: "",
 
       modal: false,
     });
@@ -93,12 +95,6 @@ class Register extends Component {
     ) {
       errors.status = "Select Status";
     }
-    if (
-      (this.state.network.trim() === "Select Network") |
-      (this.state.network.trim() === "")
-    ) {
-      errors.network = "Select Network Type";
-    }
 
     if (
       (this.state.member.trim() === "Select Status") |
@@ -137,39 +133,137 @@ class Register extends Component {
       if (!this.state.loading) {
         this.setState({ errors });
         isValid = Object.keys(errors).length === 0;
+        this.setState({
+          isvalid: isValid,
+        });
+        this.setState({
+          validated: true,
+        });
         document.getElementById("spinning").hidden = true;
         document.getElementById("form").hidden = false;
+
         if (isValid) {
-          this.props.register(this.state);
+          console.log("IT IS VALID");
         }
-        // if (this.props.success) {
-        this.handleShow();
+        // if (isValid) {
+        //   this.props.register(this.state);
         // }
+        // // if (this.props.success) {
+        // this.handleShow();
+        // // }
       }
     }, 5000);
   };
+
+  Submit = (isValid) => {
+    if (this.state.isvalid) {
+      this.props.register(this.state);
+      this.handleShow();
+    }
+  };
+
+  // you can call this function anything
+  onSuccess = (reference) => {
+    // Implementation for whatever you want to do with reference and after success call.
+    this.Submit();
+    console.log(reference);
+  };
+
+  // you can call this function anything
+  onClose = () => {
+    // implementation for  whatever you want to do when the Paystack dialog closed.
+    // this.handleSubmit();
+    console.log("closed");
+  };
+
   render() {
     const { authError } = this.props;
+    const config = {
+      reference: new Date().getTime(),
+      email: "japhetkuntublankson1@gmail.com",
+      amount: 2000,
+      publicKey: "pk_test_9e83b525e3a2eedb33d11cf0f5d23e4d13d4987a",
+      currency: "GHS",
+    };
 
-    console.log(this.props.success);
+    const PaystackHookExample = () => {
+      const initializePayment = usePaystackPayment(config);
+      return (
+        <div>
+          <button
+            type="button"
+            className="btn btn-success form-control "
+            onClick={() => {
+              initializePayment(this.onSuccess, this.onClose);
+            }}
+          >
+            Register
+          </button>
+        </div>
+      );
+    };
+
+    const Instructions = (
+      <div className="container">
+        <div
+          className="alert alert-warning alert-dismissible fade show mx-auto text-center"
+          role="alert"
+        >
+          <strong className="text-center">Registration Instructions</strong>
+        </div>
+        <div
+          className="alert alert-warning alert-dismissible fade show"
+          role="alert"
+        >
+          <h5>
+            Enter your active email since conference links will be sent to you
+            via email
+          </h5>
+        </div>
+
+        <div
+          className="alert alert-warning alert-dismissible fade show"
+          role="alert"
+        >
+          <h5>
+            Check your input before you register by clicking on the{" "}
+            <b>Check Input</b> button
+          </h5>
+        </div>
+
+        <div
+          className="alert alert-warning alert-dismissible fade show"
+          role="alert"
+        >
+          <h5>
+            Complete your registration by clicking on the <b>Register</b> button
+          </h5>
+        </div>
+      </div>
+    );
     return (
       <div className="container">
-        {/* <span\
-        51,31,84,17
-          className="spinner text-danger mx-auto text-center"
-          //   role="status"
-          id="spinning"
-          hidden
-          style={{ marginTop: "250px" }}
-        >
-          <RiseLoader margin={1} size={50} color={"#fff"} loading={true} />
-        </span> */}
-        {/* {this.state.registered ?  : ""} */}
         <div className="Loading-header" id="spinning" hidden>
           <RiseLoader margin={1} size={100} color={"#fff"} loading={true} />{" "}
         </div>{" "}
         <div className="my-container">
           <form onSubmit={this.handleSubmit} className="form-group" id="form">
+            {Instructions}
+            <div className="container">
+              {this.state.validated ? (
+                this.state.isvalid ? (
+                  <h4 className="btn-success mx-auto text-center">
+                    Your input data is Valid
+                  </h4>
+                ) : (
+                  <h4 className="btn-danger  mx-auto text-center">
+                    Your input data is invalid
+                  </h4>
+                )
+              ) : (
+                ""
+              )}
+            </div>
             {!!this.state.errors.global && (
               <div className="ui negative message">
                 <p>{this.state.errors.global}</p>
@@ -282,23 +376,20 @@ class Register extends Component {
               errorstatus={this.state.error}
               errors={this.state.errors.momo}
             />
-            <SelectField
-              label="Telecom Network"
-              name="network"
-              required
-              value={this.state.network}
-              onChange={this.handleChange}
-              data={["Select Telecom", "MTN", "Airtel/Tigo", "Vodafone"]}
-              errorstatus={this.state.error}
-              errors={this.state.errors.network}
-            />
-            <div
-              style={{ marginTop: "20px", width: "50%" }}
-              className="container"
-            >
-              <button type="submit" className="btn btn-success form-control">
-                Register
-              </button>
+
+            <div style={{ marginTop: "20px" }} className="container row">
+              <div className="col-lg-6 col-md-6 col-sm-6">
+                <button type="submit" className="btn btn-success form-control">
+                  Check Input
+                </button>
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-6">
+                {this.state.validated && this.state.isvalid ? (
+                  <PaystackHookExample />
+                ) : (
+                  ""
+                )}
+              </div>
             </div>
 
             <Modal
@@ -359,6 +450,7 @@ class Register extends Component {
               </Modal.Body>
             </Modal>
           </form>
+          {/* <PaystackHookExample /> */}
         </div>
         {/* <img src={img} alt="bg" /> */}
       </div>
