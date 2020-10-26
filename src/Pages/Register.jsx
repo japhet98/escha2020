@@ -7,7 +7,7 @@ import "./index.css";
 import RiseLoader from "react-spinners/CircleLoader";
 import { Button, Modal } from "react-bootstrap";
 import { usePaystackPayment } from "react-paystack";
-import { MDBContainer, MDBAlert } from "mdbreact";
+// import { MDBContainer, MDBAlert } from "mdbreact";
 
 /**
  * name
@@ -224,57 +224,7 @@ class Register extends Component {
         </div>
       );
     };
-    const IndexAlertPage = ({ Children, color, dismiss }) => {
-      return (
-        <MDBContainer>
-          <MDBAlert color={color} dismiss={dismiss}>
-            {Children}
-          </MDBAlert>
-        </MDBContainer>
-      );
-    };
 
-    const Instructions = (
-      <div className="container-fluid">
-        <IndexAlertPage
-          color="warning"
-          dismiss
-          Children={
-            <strong className="text-center">Registration Instructions</strong>
-          }
-        />
-        <IndexAlertPage
-          color="warning"
-          dismiss
-          Children={
-            <h5>
-              Enter your active email since conference links will be sent to you
-              via email
-            </h5>
-          }
-        />
-        <IndexAlertPage
-          color="warning"
-          dismiss
-          Children={
-            <h5>
-              Check your input before you register by clicking on the{" "}
-              <b>Check Input</b> button
-            </h5>
-          }
-        />
-        <IndexAlertPage
-          color="warning"
-          dismiss
-          Children={
-            <h5>
-              Complete your registration by clicking on the <b>Register</b>{" "}
-              button
-            </h5>
-          }
-        />
-      </div>
-    );
     return (
       <div className="container">
         <div className="Loading-header" id="spinning" hidden>
@@ -282,7 +232,6 @@ class Register extends Component {
         </div>{" "}
         <div className="my-container">
           <form onSubmit={this.handleSubmit} className="form-group" id="form">
-            {Instructions}
             <div className="container">
               {this.state.validated ? (
                 this.state.isvalid ? (
