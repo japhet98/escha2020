@@ -7,7 +7,7 @@ import "./index.css";
 import RiseLoader from "react-spinners/CircleLoader";
 import { Button, Modal } from "react-bootstrap";
 import { usePaystackPayment } from "react-paystack";
-import { MDBContainer, MDBAlert, MDBNotification } from "mdbreact";
+import { MDBContainer, MDBAlert } from "mdbreact";
 
 /**
  * name
@@ -34,11 +34,13 @@ class Register extends Component {
       password: "123456789",
       expectation: "",
       momo: "",
+      pensa: "",
       network: "",
       errors: {},
       error: true,
       loading: false,
       isvalid: false,
+      invalid: "Your input data is not valid",
       registered: false,
       show: false,
       _loading: false,
@@ -76,6 +78,10 @@ class Register extends Component {
     } else {
       this.setState({ [name]: value });
     }
+    this.setState({
+      isvalid: false,
+      invalid: "Check the validity of your input",
+    });
   };
 
   handleSubmit = (e) => {
@@ -103,6 +109,13 @@ class Register extends Component {
       (this.state.member.trim() === "")
     ) {
       errors.member = "Select COP Status";
+    }
+
+    if (
+      (this.state.pensa.trim() === "Select Status") |
+      (this.state.pensa.trim() === "")
+    ) {
+      errors.pensa = "Select PENSA Membership Status";
     }
 
     if (
@@ -144,9 +157,9 @@ class Register extends Component {
         document.getElementById("spinning").hidden = true;
         document.getElementById("form").hidden = false;
 
-        if (isValid) {
-          console.log("IT IS VALID");
-        }
+        // if (isValid) {
+        //   console.log("IT IS VALID");
+        // }
         // if (isValid) {
         //   this.props.register(this.state);
         // }
@@ -180,11 +193,18 @@ class Register extends Component {
 
   render() {
     const { authError } = this.props;
+
     const config = {
       reference: new Date().getTime(),
-      email: "japhetkuntublankson1@gmail.com",
-      amount: 2000,
-      publicKey: "pk_test_9e83b525e3a2eedb33d11cf0f5d23e4d13d4987a",
+      email: this.state.email,
+      firstname: this.state.name.split(" ").shift(),
+      amount:
+        this.state.status === "Pre-Tertiary"
+          ? 200
+          : this.state.status === "Tertiary"
+          ? 500
+          : 1000,
+      publicKey: "pk_live_195c388bc88cfe71e44120fe6b1c5c74e6ba8cce",
       currency: "GHS",
     };
 
@@ -327,23 +347,26 @@ class Register extends Component {
             />
             <SelectField
               label="PENSA Membership Status"
+              name="pensa"
+              required
+              value={this.state.pensa}
+              onChange={this.handleChange}
+              data={["Select Status", "Member", "Not Member"]}
+              errorstatus={this.state.error}
+              errors={this.state.errors.pensa}
+            />
+            <SelectField
+              label="Education Status"
               name="status"
               required
               value={this.state.status}
               onChange={this.handleChange}
-              data={[
-                "Select Status",
-                "Pre-Tertiary",
-                "Tertiary",
-                "Alumni",
-                "Non-PENSA",
-              ]}
+              data={["Select Status", "Pre-Tertiary", "Tertiary", "Alumni"]}
               errorstatus={this.state.error}
               errors={this.state.errors.status}
             />
             {this.state.status === "Pre-Tertiary" ||
-            this.state.status === "Tertiary" ||
-            this.state.status === "Non-PENSA" ? (
+            this.state.status === "Tertiary" ? (
               <TextField
                 type="text"
                 name="institution"
@@ -382,7 +405,7 @@ class Register extends Component {
             <TextField
               type="text"
               name="momo"
-              label="Mobile Money Number"
+              label="Phone Number"
               className="form-control"
               value={this.state.momo}
               onChange={this.handleChange}

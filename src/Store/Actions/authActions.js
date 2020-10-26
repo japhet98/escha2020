@@ -33,7 +33,7 @@ const sendEmail = (member) => {
         from_name: "noReply@pensaumat",
         to_name: member.name,
         to_email: member.email,
-        reply_to: "testing@gmail.com",
+        reply_to: "pensaumat@gmail.com",
         subject: "subject",
         message_html: "message",
     };
@@ -70,6 +70,7 @@ export const register = (newUser) => {
                     status: newUser.status,
                     phone: newUser.momo,
                     email: newUser.email,
+                    pensa: newUser.pensa,
                     institution: newUser.institution,
                     expectation: newUser.expectation,
                 });
