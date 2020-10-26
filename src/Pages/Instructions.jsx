@@ -80,6 +80,29 @@ class Instructions extends Component {
             </div>
           }
         />
+
+        <IndexAlertPage
+          color="success"
+          Children={
+            <div>
+              <h5>
+                <b className="text-center">
+                  You will be required to pay a token to support the conference
+                  during the registration
+                </b>
+              </h5>
+              <h6>
+                <b>1. Pre-Tetiary 2GHS</b>
+              </h6>
+              <h6>
+                <b>2. Tetiary 5GHS</b>
+              </h6>
+              <h6>
+                <b>3. Alumni 10GHS</b>
+              </h6>
+            </div>
+          }
+        />
         <div className="container" style={{ width: "50%" }}>
           <button
             type="button"
