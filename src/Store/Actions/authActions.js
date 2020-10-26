@@ -34,8 +34,8 @@ const sendEmail = (member) => {
         to_name: member.name,
         to_email: member.email,
         reply_to: "pensaumat@gmail.com",
-        subject: "subject",
-        message_html: "message",
+        // subject: "subject",
+        // message_html: "message",
     };
     emailjs
         .send(

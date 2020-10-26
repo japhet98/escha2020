@@ -129,7 +129,7 @@ class Register extends Component {
       errors.email = "Enter Email";
     }
     if (this.state.momo.trim() === "") {
-      errors.momo = "Enter your mobile money number";
+      errors.momo = "Enter your phone number";
     }
     if (this.state.expectation.trim() === "") {
       errors.expectation = "Enter your expectation for the conference";
@@ -188,7 +188,7 @@ class Register extends Component {
   onClose = () => {
     // implementation for  whatever you want to do when the Paystack dialog closed.
     // this.handleSubmit();
-    console.log("closed");
+    // console.log("closed");
   };
 
   render() {
@@ -468,7 +468,7 @@ class Register extends Component {
                     </h5>
                     <h6>
                       You have successfuly registered for the second edition of
-                      the Eschatological conference
+                      Eschatological conference
                     </h6>
                     <b>
                       {" "}
