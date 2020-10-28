@@ -7,7 +7,6 @@ import "./index.css";
 import RiseLoader from "react-spinners/CircleLoader";
 import { Button, Modal } from "react-bootstrap";
 import { usePaystackPayment } from "react-paystack";
-// import { MDBContainer, MDBAlert } from "mdbreact";
 
 /**
  * name

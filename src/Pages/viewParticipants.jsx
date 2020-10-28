@@ -41,6 +41,7 @@ class ViewParticipants extends Component {
         </button>
       </div>
     );
+
     return (
       <div style={{ width: "100%" }}>
         <button

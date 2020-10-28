@@ -1,21 +1,12 @@
 import React, { Component } from "react";
-import { MDBContainer, MDBAlert } from "mdbreact";
 import { withRouter } from "react-router";
+import { IndexAlertPage } from "./Aleart";
 
 class Instructions extends Component {
   Register = () => {
     this.props.history.push("/register");
   };
   render() {
-    const IndexAlertPage = ({ Children, color, dismiss }) => {
-      return (
-        <MDBContainer>
-          <MDBAlert color={color} dismiss={dismiss}>
-            {Children}
-          </MDBAlert>
-        </MDBContainer>
-      );
-    };
     return (
       <div className="container form-group">
         <IndexAlertPage
