@@ -64,7 +64,7 @@ class ViewParticipants extends Component {
               <th>Eductation Level</th>
               <th>Institution</th>
               <th>Expectation</th>
-              <th>Date Registered</th>
+              {/* <th>Date Registered</th> */}
             </tr>
           </thead>
 
@@ -84,7 +84,7 @@ class ViewParticipants extends Component {
                   <td>{e.status}</td>
                   <td>{e.institution}</td>
                   <td>{e.expectation}</td>
-                  <td>{e.dateRegistered}</td>
+                  {/* <td>{e.dateRegistered}</td> */}
                 </tr>
               </tbody>
             ))}
@@ -108,7 +108,5 @@ const mapStateToProps = (state) => {
 
 export default compose(
   connect(mapStateToProps, { signOut }),
-  firestoreConnect([
-    { collection: "member", orderBy: ["dateRegistered", "asc"] },
-  ])
+  firestoreConnect([{ collection: "member", orderBy: ["institution", "asc"] }])
 )(ViewParticipants);
