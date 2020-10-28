@@ -73,7 +73,7 @@ export const register = (newUser) => {
                     pensa: newUser.pensa,
                     institution: newUser.institution,
                     expectation: newUser.expectation,
-                    dateRegistered: new Date.now(),
+                    dateRegistered: new Date(),
                 });
             })
             .then(() => sendEmail(newUser))
