@@ -63,7 +63,7 @@ export const register = (newUser) => {
             .auth()
             .createUserWithEmailAndPassword(newUser.email, newUser.password)
             .then((memb) => {
-                return firestore.collection("member").doc().set({
+                return firestore.collection("member").doc(memb.user.uid).set({
                     name: newUser.name,
                     member: newUser.member,
                     gender: newUser.gender,
