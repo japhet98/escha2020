@@ -32,6 +32,7 @@ class ViewParticipants extends Component {
       member && member.slice(indexOfFirstPost, indexOfLastPost);
 
     let i = 1;
+    console.log(member);
 
     const Total = (
       <div className="container-fluid mx-auto">
@@ -109,5 +110,5 @@ const mapStateToProps = (state) => {
 
 export default compose(
   connect(mapStateToProps, { signOut }),
-  firestoreConnect([{ collection: "member", orderBy: ["institution", "asc"] }])
+  firestoreConnect([{ collection: "member" }])
 )(ViewParticipants);

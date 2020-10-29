@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { register } from "../Store/Actions/authActions";
+import { register, Testing } from "../Store/Actions/authActions";
 import { connect } from "react-redux";
 import { TextField, SelectField } from "../Component/Constant";
 // import img from "../assets/IMG-20201007-WA0008.jpg";
@@ -226,6 +226,12 @@ class Register extends Component {
 
     return (
       <div className="container">
+        {/* <button
+          onClick={() => this.props.Testing()}
+          className="btn btn-danger form-control"
+        >
+          Testing
+        </button> */}
         <div className="Loading-header" id="spinning" hidden>
           <RiseLoader margin={1} size={100} color={"#fff"} loading={true} />{" "}
         </div>{" "}
@@ -460,6 +466,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     register: (creds) => dispatch(register(creds)),
+    Testing: () => dispatch(Testing()),
   };
 };
 

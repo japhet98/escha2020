@@ -63,7 +63,7 @@ export const register = (newUser) => {
             .auth()
             .createUserWithEmailAndPassword(newUser.email, newUser.password)
             .then((memb) => {
-                return firestore.collection("member").doc(memb.user.uid).set({
+                return firestore.collection("member").doc().set({
                     name: newUser.name,
                     member: newUser.member,
                     gender: newUser.gender,
@@ -73,7 +73,6 @@ export const register = (newUser) => {
                     pensa: newUser.pensa,
                     institution: newUser.institution,
                     expectation: newUser.expectation,
-                    // dateRegistered: new Date(),
                 });
             })
             .then(() => sendEmail(newUser))
@@ -86,6 +85,33 @@ export const register = (newUser) => {
     };
 };
 
+export const Testing = (newUser) => {
+    return (dispatch, getState, { getFirebase, getFirestore }) => {
+        const firebase = getFirebase();
+        const firestore = getFirestore();
+
+        firestore
+            .collection("testing")
+            .doc()
+            .set({
+                name: "newUser.name",
+                member: "newUser.member",
+                gender: "newUser.gender",
+                status: "newUser.status",
+                phone: "newUser.momo",
+                email: "newUser.email",
+                pensa: "newUser.pensa",
+                institution: "newUser.institution",
+                expectation: "newUser.expectation",
+            })
+            .then(() => {
+                dispatch({ type: "SIGNUP_SUCCESS" });
+            })
+            .catch((err) => {
+                dispatch({ type: "SIGNUP_ERROR", err });
+            });
+    };
+};
 // const credentials = {
 //     userSecret: "82fc4d50e0314a4cbd57ae64ce1b70f5",
 //     userId: "5ededbd1-cc21-4ada-ac11-0c0e481800ad",
